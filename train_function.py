@@ -18,7 +18,6 @@ import scanpy as sc
 import joblib
 import datetime
 import os
-from tqdm import tqdm
 
 
 def feature_select(adata, y, file_name):

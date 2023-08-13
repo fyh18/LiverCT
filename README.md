@@ -11,3 +11,7 @@ The code below can be obtained from github.
 
 ## Quick start
 Here, we provide an example data of hcc from uniLIVER. Users can download it and run following scripts to understand the workflow of LiverCT.
+
+```python
+import test_function
+```
