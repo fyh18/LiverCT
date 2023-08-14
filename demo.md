@@ -395,8 +395,7 @@ sc.settings.set_figure_params(dpi=200, figsize=(2,2), frameon=False)
 sc.pl.umap(latent, color=['pred_lv1', 'voting_lv2_1'], size=20000 / latent.n_obs, legend_fontsize=6)
 
 sc.settings.set_figure_params(dpi=200, figsize=(1.5,1.5), frameon=False)
-sc.pl.umap(latent, color=['intermediate_score', 'deviated_score'], size=20000 / latent.n_obs)
-sc.pl.umap(latent, color=['intermediate_state', 'deviated_state', 'hep_zonation'], size=20000 / latent.n_obs, legend_fontsize=6)
+sc.pl.umap(latent, color=['intermediate_score', 'deviated_score', 'hep_zonation'], size=20000 / latent.n_obs, legend_fontsize=6)
 ```
 
 
@@ -408,11 +407,5 @@ sc.pl.umap(latent, color=['intermediate_state', 'deviated_state', 'hep_zonation'
 
     
 ![png](demo_files/demo_12_1.png)
-    
-
-
-
-    
-![png](demo_files/demo_12_2.png)
     
 
