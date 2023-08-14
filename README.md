@@ -7,11 +7,8 @@ We developed LiverCT (machine learning based Liver Cell Type mapping), for mappi
 
 The code below can be obtained from github.
 
-## Installation
+## Requirements
+LiverCT's dependencies can be found in requirements.txt in this repository.
 
 ## Quick start
-Here, we provide an example data of hcc from uniLIVER. Users can download it and run following scripts to understand the workflow of LiverCT.
-
-```python
-import test_function
-```
+Here, we provide an example data of hcc from uniLIVER. Users can download it and run following scripts to understand the workflow of LiverCT. See demo.ipynb in this repository.
