@@ -73,7 +73,6 @@ hep = adata[res['voting_lv2_1'] == "Hepatocyte"]
 hep.obs['donor_ID'] = list(hep.obs['Patient_ID'])
 hep_res, hep_latent = hep_zonation_annot(model_dir=extract_dir + "models/",
                                          hepatocyte_adata=hep, finetune_epoch=20)
-hep_res
 ```
 
 ### Visualize results
