@@ -9,6 +9,8 @@ The work logic flow of LiverCT is shown as below:
 
 ![Alt text](image.png)
 
+The code below can be obtained from https://github.com/fyh18/LiverCT
+
 ## Requirements
 
 LiverCT's dependencies can be found in requirements.txt in this repository. 
