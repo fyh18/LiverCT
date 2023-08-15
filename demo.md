@@ -317,6 +317,34 @@ res
 
 
 
+# Visualize annotation results
+
+
+```python
+latent.obs = pd.concat([adata.obs, res], axis=1)
+sc.pp.neighbors(latent, use_rep='X')
+sc.tl.umap(latent)
+
+sc.settings.set_figure_params(dpi=200, figsize=(2,2), frameon=False, fontsize=8)
+sc.pl.umap(latent, color=['pred_lv1', 'voting_lv2_1'], size=20000 / latent.n_obs, legend_fontsize=6)
+
+sc.settings.set_figure_params(dpi=200, figsize=(1.5,1.5), frameon=False, fontsize=8)
+sc.pl.umap(latent, color=['intermediate_score', 'deviated_score'],
+           size=20000 / latent.n_obs, legend_fontsize=6, color_map='inferno')
+```
+
+
+    
+![png](demo_files/demo_10_0.png)
+    
+
+
+
+    
+![png](demo_files/demo_10_1.png)
+    
+
+
 ### Annotate hepatocyte zonation groups
 
 
@@ -380,32 +408,20 @@ hep_res
 
 
 
-### Visualize query data
+### Visualize zonation results
 
 
 ```python
-latent.obs = pd.concat([adata.obs, res], axis=1)
-latent.obs['hep_zonation'] = None
-latent.obs['hep_zonation'][hep.obs_names] = list(hep_res)
+hep_latent.obs['zonation'] = list(hep_res)
+sc.pp.neighbors(hep_latent, use_rep='X')
+sc.tl.umap(hep_latent)
+sc.settings.set_figure_params(dpi=200, figsize=(2,2), frameon=False, fontsize=8)
+sc.pl.umap(hep_latent, color=['zonation'], size=50000 / latent.n_obs, legend_fontsize=6)
 
-sc.pp.neighbors(latent, use_rep='X')
-sc.tl.umap(latent)
-
-sc.settings.set_figure_params(dpi=200, figsize=(2,2), frameon=False)
-sc.pl.umap(latent, color=['pred_lv1', 'voting_lv2_1'], size=20000 / latent.n_obs, legend_fontsize=6)
-
-sc.settings.set_figure_params(dpi=200, figsize=(1.5,1.5), frameon=False)
-sc.pl.umap(latent, color=['intermediate_score', 'deviated_score', 'hep_zonation'], size=20000 / latent.n_obs, legend_fontsize=6)
 ```
 
 
     
-![png](demo_files/demo_12_0.png)
-    
-
-
-
-    
-![png](demo_files/demo_12_1.png)
+![png](demo_files/demo_14_0.png)
     
 
