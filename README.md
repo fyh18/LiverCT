@@ -36,7 +36,7 @@ warnings.filterwarnings("ignore")
 
 from liverct_annot import *
 ```
-### download trained models from zenodo
+### Download trained models from zenodo
 
 
 ```python
@@ -50,7 +50,7 @@ shutil.unpack_archive(output_folder + "LiverCT_models.zip", extract_dir=extract_
 os.remove(output_folder + "LiverCT_models.zip")
 ```
 
-### download query dataset from zenodo
+### Download query dataset from zenodo
 
 ```python
 url = "https://zenodo.org/record/8239570/files/example_data_Lu2022_downsampled.h5ad"
@@ -60,6 +60,7 @@ adata = sc.read_h5ad(output_folder + "example_data_Lu2022_downsampled.h5ad")
 ### Annotate cell types and intermediate/deviated states
 
 ```python
+# adata.obs["batch"] is used as _scvi_batch; if not provided, all cells are treated as one batch.
 res, latent = cell_states_annot(model_dir=extract_dir + "models/",
                                 adata_test=adata, finetune_epoch=20)
 ```
