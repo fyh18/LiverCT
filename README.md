@@ -4,10 +4,10 @@ We developed LiverCT (machine learning based Liver Cell Type mapping), for mappi
 - **Cell type classification**: Provide predictions for two levels of cell type labels. 
 - **"Variant" state identification**: Identify cells potentially in deviated states and intermediate states. 
 - **Hepatocyte zonation reconstruction**: Specifically for hepatocytes, provide zonation reconstruction labels along the CV-PV axis at sub-lobule scale.
-V
+
 The work logic flow of LiverCT is shown as below: 
 
-![Alt text](image.png)
+![Alt text](workflow.png)
 
 The code below can be obtained from https://github.com/fyh18/LiverCT
 

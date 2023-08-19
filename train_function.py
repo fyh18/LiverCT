@@ -80,7 +80,6 @@ def ovo_svm_train(X, y, file_name, label1, label2):
 
 def oneclass_svm_train(X, file_name, label, nu, gamma):
     # for outlier detection
-    # nu需要在0-1之间调参
     print("SVM train start...")
     start = datetime.datetime.now()
     # clf = OneClassSVM(kernel='rbf', nu=nu, gamma=gamma)
