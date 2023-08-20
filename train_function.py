@@ -2,7 +2,7 @@ from sklearn.feature_selection import SelectKBest, f_classif
 from sklearn.ensemble import VotingClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
-from sklearn.svm import SVC, OneClassSVM
+# from sklearn.svm import SVC, OneClassSVM
 from sklearn.linear_model import SGDOneClassSVM, SGDClassifier
 from sklearn.kernel_approximation import Nystroem
 from sklearn.pipeline import make_pipeline

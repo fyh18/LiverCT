@@ -11,21 +11,41 @@ The work logic flow of LiverCT is shown as below:
 
 The code below can be obtained from https://github.com/fyh18/LiverCT
 
-## Requirements
+## Installation
 
-LiverCT's dependencies can be found in requirements.txt in this repository. 
-> numpy==1.22.4  
-scipy==1.8.1  
-pandas==1.4.3  
-anndata==0.8.0  
-scanpy==1.9.1  
-scArches==0.5.9  
-joblib==1.1.0  
-scikit_learn==1.1.1  
-xgboost==1.7.6  
+LiverCT is built on python 3.9.7. LiverCT's dependencies can be found in requirements.txt in this repository. 
+
+Create a conda environment: 
+
+```
+conda create -n liverct python=3.9.7
+conda activate liverct
+```
+
+Prepare the environment for LiverCT: 
+
+```
+pip install numpy==1.22.4  
+pip install scipy==1.8.1  
+pip install pandas==1.4.3  
+pip install anndata==0.8.0  
+pip install matplotlib==3.5.1
+pip install scanpy==1.9.1  
+pip install scarches==0.5.9  
+pip install scikit-learn==1.1.1  
+pip install joblib==1.1.0  
+pip install xgboost==1.7.6  
+```
+
+Clone LiverCT from GitHub: 
+
+```
+cd dir_to_save_the_code
+git clone https://github.com/fyh18/LiverCT.git
+```
 
 ## Quick start
-Here, we provide an example data of hcc from uniLIVER. Users can download it and run following scripts to understand the workflow of LiverCT. Also see demo.ipynb in this repository.
+Here, we provide an example to annotate a dataset (Lu2022) of HCC by LiverCT. The following tutorial can help you quickly understand how LiverCT works. If you'd like, you can also directly run **demo.ipynb** in this repository.
 
 ```python
 import os
