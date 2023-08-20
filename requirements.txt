@@ -5,6 +5,7 @@ anndata==0.8.0
 matplotlib==3.5.1
 scanpy==1.9.1  
 scvi-tools==0.14.6
+torchmetrics==0.7.3
 scarches==0.5.9  
 scikit-learn==1.1.1  
 joblib==1.1.0  
