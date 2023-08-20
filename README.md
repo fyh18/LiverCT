@@ -31,6 +31,7 @@ pip install pandas==1.4.3
 pip install anndata==0.8.0  
 pip install matplotlib==3.5.1
 pip install scanpy==1.9.1  
+pip install scvi-tools==0.14.6
 pip install scarches==0.5.9  
 pip install scikit-learn==1.1.1  
 pip install joblib==1.1.0  
