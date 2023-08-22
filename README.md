@@ -36,6 +36,12 @@ Prepare the environment for LiverCT:
 pip install -r requirements.txt --user
 ```
 
+Install ipykernel if you'd like to run Jupyter Notebook:
+
+```
+pip install ipykernel
+```
+
 ## Quick start
 Here, we provide an example to annotate a dataset (Lu2022) of HCC by LiverCT. The following tutorial can help you quickly understand how LiverCT works. If you'd like, you can also directly run **demo.ipynb** in this repository.
 
