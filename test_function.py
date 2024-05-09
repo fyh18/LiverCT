@@ -182,29 +182,31 @@ def LabelPredict(test_set, is_cnt, select_feature,
     test_adata_labeled = anndata.concat(adata_list, merge="same")
     test_adata = test_adata_labeled[test_adata.obs_names, :]
     
-    # # 可以把None改成"Unknown"
-    # label_lv1 = np.full(test_adata.n_obs, fill_value=None)
-    # label_lv2 = np.full(test_adata.n_obs, fill_value=None)
+    ##### add unknown label #####
+    label_lv1 = np.full(test_adata.n_obs, fill_value="Unknown")
+    label_lv2 = np.full(test_adata.n_obs, fill_value="Unknown")
     
-    # threshold = 0.6
-    # label_lv1[test_adata.obs['proba_lv1'] > threshold] = test_adata.obs['pred_lv1'][test_adata.obs['proba_lv1'] > threshold]
-    # label_lv2[test_adata.obs['proba_lv1'] > threshold] = test_adata.obs['voting_lv2_1'][test_adata.obs['proba_lv1'] > threshold]
-    # epi = (test_adata.obs['pred_lv1']=='Hepatocyte') | (test_adata.obs['pred_lv1']=='Cholangiocyte')
-    # unknown_epi = epi & (test_adata.obs['proba_lv1'] <= threshold)
-    # label_lv1[unknown_epi] = "UnknownEpithelial"
-    # label_lv2[unknown_epi] = "UnknownEpithelial"
-    # test_adata.obs['suggest_label_lv1'] = list(label_lv1)
-    # test_adata.obs['suggest_label_lv2'] = list(label_lv2)
+    threshold = 0.6
+    label_lv1[test_adata.obs['proba_lv1'] > threshold] = test_adata.obs['pred_lv1'][test_adata.obs['proba_lv1'] > threshold]
+    label_lv2[test_adata.obs['proba_lv1'] > threshold] = test_adata.obs['voting_lv2_1'][test_adata.obs['proba_lv1'] > threshold]
+    epi = (test_adata.obs['pred_lv1']=='Hepatocyte') | (test_adata.obs['pred_lv1']=='Cholangiocyte')
+    unknown_epi = epi & (test_adata.obs['proba_lv1'] <= threshold)
+    label_lv1[unknown_epi] = "UnknownEpithelial"
+    label_lv2[unknown_epi] = "UnknownEpithelial"
+    test_adata.obs['suggest_label_lv1'] = list(label_lv1)
+    test_adata.obs['suggest_label_lv2'] = list(label_lv2)
 
-    # lineage = np.array(test_adata.obs['suggest_label_lv1'])
-    # lineage[(test_adata.obs['suggest_label_lv1']=='TNK cell') | (test_adata.obs['suggest_label_lv1']=='B cell')
-    #          | (test_adata.obs['suggest_label_lv1']=='Plasma B cell')] = 'Lymphoid'
-    # lineage[test_adata.obs['suggest_label_lv1']=='Myeloid cell'] = 'Myeloid'
-    # lineage[test_adata.obs['suggest_label_lv1']=='Mesenchymal cell'] = 'Stromal'
-    # lineage[test_adata.obs['suggest_label_lv1']=='Endothelial cell'] = 'Endothelial'
-    # lineage[(test_adata.obs['suggest_label_lv1']=='Hepatocyte') | (test_adata.obs['suggest_label_lv1']=='Cholangiocyte')
-    #         | (test_adata.obs['suggest_label_lv1']=='UnknownEpithelial')] = 'Epithelial'
-    # test_adata.obs['suggest_label_lineage'] = list(lineage)
+    lineage = np.array(test_adata.obs['suggest_label_lv1'])
+    lineage[(test_adata.obs['suggest_label_lv1']==' x    cell') | (test_adata.obs['suggest_label_lv1']=='B cell')
+             | (test_adata.obs['suggest_label_lv1']=='Plasma B cell')] = 'Lymphoid'
+    lineage[test_adata.obs['suggest_label_lv1']=='Myeloid cell'] = 'Myeloid'
+    lineage[test_adata.obs['suggest_label_lv1']=='Mesenchymal cell'] = 'Stromal'
+    lineage[test_adata.obs['suggest_label_lv1']=='Endothelial cell'] = 'Endothelial'
+    lineage[(test_adata.obs['suggest_label_lv1']=='Hepatocyte') | (test_adata.obs['suggest_label_lv1']=='Cholangiocyte')
+            | (test_adata.obs['suggest_label_lv1']=='UnknownEpithelial')] = 'Epithelial'
+    test_adata.obs['suggest_label_lineage'] = list(lineage)
+    ##########
+    
     lineage = np.array(test_adata.obs['pred_lv1'])
     lineage[(test_adata.obs['pred_lv1']=='TNK cell') | (test_adata.obs['pred_lv1']=='B cell')
              | (test_adata.obs['pred_lv1']=='Plasma B cell')] = 'Lymphoid'
@@ -248,6 +250,7 @@ def LabelPredict(test_set, is_cnt, select_feature,
     df_groups = [test_adata.obs["pred_lineage"], test_adata.obs["pred_lv1"], test_adata.obs["pred_lv2"],
                  test_adata.obs["intermediate_score"], test_adata.obs['deviated_score'], 
                  test_adata.obs["intermediate_state"], test_adata.obs["deviated_state"], 
-                 test_adata.obs["proba_lv1"], test_adata.obs["voting_lv2_1"], test_adata.obs["voting_lv2_2"]]
+                 test_adata.obs["proba_lv1"], test_adata.obs["voting_lv2_1"], test_adata.obs["voting_lv2_2"],
+                 test_adata.obs["suggest_label_lv1"], test_adata.obs["suggest_label_lv2"], test_adata.obs["suggest_label_lineage"]]
     softvote_pred = reduce(lambda left, right: pd.concat([left, right], axis=1), df_groups)
     return softvote_pred
