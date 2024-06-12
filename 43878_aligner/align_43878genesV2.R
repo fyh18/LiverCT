@@ -6,18 +6,22 @@ suppressMessages(suppressWarnings(library(dplyr)))
 suppressMessages(library(data.table))
 
 #### Read Data ####
-dataPath <- "/home/wyh/liver_atlas/submit/revision/"
-author <- "Han"
+Args = commandArgs(T)
+data_dir <- Args[1]
+print(data_dir)
+data_name <- Args[2]
+print(data_name)
 
-refTablePath <- paste0("/home/wyh/liver_atlas/code/LiverCT/43878_aligner/GeneSymbolRef_SelectAll_upd.csv")
-refGenePath <- paste0("/home/wyh/liver_atlas/code/LiverCT/43878_aligner/total_gene_list_43878.txt")
+refTablePath <- paste0("./GeneSymbolRef_SelectAll_upd.csv")
+refGenePath <- paste0("./total_gene_list_43878.txt")
 
 # expression matrix
-data.matrix <- read.table("/home/wyh/liver_atlas/submit/revision/Han/Adult-Liver4_dge.txt", sep=',',row.names = 1,header = TRUE)
-dataobj <- CreateSeuratObject(counts = data.matrix, 
-                              project = author)
-rm(data.matrix)
-gc()
+# data.matrix <- read.table(paste0(data_dir), sep=',',row.names = 1,header = TRUE)
+dataobj = readRDS(paste0(data_dir,data_name,".RDS"))
+# dataobj <- CreateSeuratObject(counts = data.matrix, 
+#                               project = author)
+# rm(data.matrix)
+# gc()
 
 #### Transfer genes ####
 ref_table <- read.csv(refTablePath, header=TRUE, na.strings=TRUE, stringsAsFactors=FALSE)
@@ -146,7 +150,7 @@ result_data_out<-result_data_out[total_gene_list,]
 
 #### Save the expression matrix ####
 write.table(result_data_out, 
-            file.path(dataPath, author, 
-                      paste0(author, "_expression_43878.tsv")), 
+            file.path(data_dir,
+                      paste0(data_name, "_expression_43878.tsv")), 
             quote = F, sep = "\t", 
             col.names = T, row.names = T)

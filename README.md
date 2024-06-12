@@ -45,6 +45,8 @@ pip install ipykernel
 ## Quick start
 Here, we provide an example to annotate a dataset (Lu2022) of HCC by LiverCT. The following tutorial can help you quickly understand how LiverCT works. If you'd like, you can also directly run **demo.ipynb** in this repository.
 
+> Please note that when testing with a new dataset, before running the LiverCT algorithm, you need to align the genes with the reference list using our tool **43878_aligner** to achieve optimal performance. See 43878_aligner/README.md. The data Lu2022 downloaded in this demo has already been aligned in advance.
+
 ```python
 import os
 import gdown
