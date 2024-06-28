@@ -215,6 +215,10 @@ def LabelPredict(test_set, is_cnt, select_feature,
     lineage[test_adata.obs['pred_lv1']=='Endothelial cell'] = 'Endothelial'
     lineage[(test_adata.obs['pred_lv1']=='Hepatocyte') | (test_adata.obs['pred_lv1']=='Cholangiocyte')] = 'Epithelial'
     test_adata.obs['pred_lineage'] = list(lineage)
+
+    # correct Pericyte as VSMC
+    test_adata.obs['voting_lv2_1'] = ['VSMC' if i == 'Pericyte' else i for i in test_adata.obs['voting_lv2_1']]
+    test_adata.obs['voting_lv2_2'] = ['VSMC' if i == 'Pericyte' else i for i in test_adata.obs['voting_lv2_2']]
     test_adata.obs['pred_lv2'] = list(test_adata.obs['voting_lv2_1'])
 
 

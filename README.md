@@ -100,9 +100,8 @@ sc.pl.umap(latent, color=['intermediate_score', 'deviated_score'],
            size=20000 / latent.n_obs, legend_fontsize=6, color_map='inferno')
 ```
 
-![png](demo_files/demo_10_0.png)
-
-![png](demo_files/demo_10_1.png)
+![png](demo_files/demo_12_0.png)
+![png](demo_files/demo_12_1.png)
 
 ### Annotate hepatocyte zonation groups
 
