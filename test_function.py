@@ -219,8 +219,9 @@ def LabelPredict(test_set, is_cnt, select_feature,
     # correct Pericyte as VSMC
     test_adata.obs['voting_lv2_1'] = ['VSMC' if i == 'Pericyte' else i for i in test_adata.obs['voting_lv2_1']]
     test_adata.obs['voting_lv2_2'] = ['VSMC' if i == 'Pericyte' else i for i in test_adata.obs['voting_lv2_2']]
+    test_adata.obs['voting_lv2_1'] = ['Kupffer' if i == 'Macro' else i for i in test_adata.obs['voting_lv2_1']]
+    test_adata.obs['voting_lv2_2'] = ['Kupffer' if i == 'Macro' else i for i in test_adata.obs['voting_lv2_2']]
     test_adata.obs['pred_lv2'] = list(test_adata.obs['voting_lv2_1'])
-
 
     # disease score / transition score
     oc_score = test_adata.obs['oc_score']
@@ -231,7 +232,7 @@ def LabelPredict(test_set, is_cnt, select_feature,
     ovo_score[ovo_score > 1] = 1
     test_adata.obs['disease_distance'] = list(oc_score)
     test_adata.obs['transition_distance'] = list(ovo_score)
-    
+
     # exp score
     test_adata.obs["intermediate_score"] = np.exp(-test_adata.obs['distance_ovo'])
     # disease score
@@ -246,11 +247,10 @@ def LabelPredict(test_set, is_cnt, select_feature,
     intermediate_score[cell_slice] = list(scores)
     test_adata.obs["intermediate_score"] = list(intermediate_score)
 
-
     # annotation type
     test_adata.obs["intermediate_state"] = ["intermediate" if i > 0.2 else "non-intermediate" for i in test_adata.obs[ 'intermediate_score']]
     test_adata.obs["deviated_state"] = ["deviated" if i > 0 else "non-deviated" for i in test_adata.obs[ 'deviated_score']]
-    
+
     df_groups = [test_adata.obs["pred_lineage"], test_adata.obs["pred_lv1"], test_adata.obs["pred_lv2"],
                  test_adata.obs["intermediate_score"], test_adata.obs['deviated_score'], 
                  test_adata.obs["intermediate_state"], test_adata.obs["deviated_state"], 
