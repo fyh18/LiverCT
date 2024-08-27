@@ -3,7 +3,10 @@ import anndata as ad
 import scarches as sca
 import datetime
 
-train_set = sc.read_h5ad("../../data/normal_atlas/43878_new/normal_annot_43878_new.h5ad")
+# train_set = sc.read_h5ad("../../data/normal_atlas/43878_new/normal_annot_43878_new.h5ad")
+train_set = sc.read_h5ad("/home/wyh/liver_atlas/data/normal_atlas/adata_healthy_intersect_counts.h5ad")
+if "counts" not in train_set.layers.keys():
+    train_set.layers["counts"] = train_set.X
 
 def scanvi_train(adata):
     start=datetime.datetime.now()
@@ -35,7 +38,7 @@ def scanvi_train(adata):
         unlabeled_category="Unknown",
     )
     lvae.train(max_epochs=20, n_samples_per_label=100)
-    ref_path = '../../model/scarches_model_new/'
+    ref_path = '../../model/scarches_model_intersect/'
     end=datetime.datetime.now()
     lvae.save(ref_path, overwrite=True)
     print("scanvi train(Seconds):", end-start)

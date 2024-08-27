@@ -99,6 +99,8 @@ def oneclass_svm_train(X, file_name, label, nu, gamma):
 
 def myClassifier_train(adata_train, is_cnt, label_lv1, label_lv2, select_feature,
                        gpu_available, model_name, save_path):
+    adata_train.obs[label_lv1] = list([i.replace("/", " ") for i in adata_train.obs[label_lv1]])
+    adata_train.obs[label_lv2] = list([i.replace(".", " ") for i in adata_train.obs[label_lv1]])
     if not os.path.exists(save_path + "/saves/" + model_name):
         os.makedirs(save_path + "/saves/" + model_name)
     pd.DataFrame(adata_train.var_names).to_csv(save_path + "/saves/" + model_name + "/train_gene_list.csv")

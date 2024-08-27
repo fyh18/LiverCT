@@ -1,6 +1,7 @@
 from test_function import *
 import scarches as sca
 import os
+from GeneSymbolUniform_Pytoolkit.Pytoolkit_GeneSymbolUniform import GeneSymbolUniform
 
 def cell_states_annot(
         model_dir,
@@ -29,7 +30,17 @@ def cell_states_annot(
         adata_test.X = adata_test.layers['counts']
     meta = adata_test.obs
 
-    test = feature_alignment(adata_test, var_names)
+    # --------------------- gene alignment -----------------------------
+    test = GeneSymbolUniform(input_adata = adata_test,
+                                    ref_table_path = "./GeneSymbolUniform_Pytoolkit/GeneSymbolRef_SelectAll_upd.csv",
+                                    gene_list_path = "./GeneSymbolUniform_Pytoolkit/total_gene_list_43878.txt",
+                                    output_dir="./test_pytoolkit/",
+                                    output_prefix='Lu2022',
+                                    print_report=False,
+                                    average_alias=False,
+                                    n_threads=30)
+    test = feature_alignment(test, var_names)
+    
     if 'batch' in meta.columns:
         test.obs['batch'] = list(meta['batch'])
     else:
@@ -86,7 +97,17 @@ def hep_zonation_annot(
         hepatocyte_adata.X = hepatocyte_adata.layers['counts']
     meta = hepatocyte_adata.obs
 
-    test = feature_alignment(hepatocyte_adata, var_names)
+    # --------------------- gene alignment -----------------------------
+    test = GeneSymbolUniform(input_adata = hepatocyte_adata,
+                                    ref_table_path = "./GeneSymbolUniform_Pytoolkit/GeneSymbolRef_SelectAll_upd.csv",
+                                    gene_list_path = "./GeneSymbolUniform_Pytoolkit/total_gene_list_43878.txt",
+                                    output_dir="./test_pytoolkit/",
+                                    output_prefix='Lu2022',
+                                    print_report=False,
+                                    average_alias=False,
+                                    n_threads=30)
+    test = feature_alignment(test, var_names)
+
     if 'donor_ID' in meta.columns:
         test.obs['donor_ID'] = list(meta['donor_ID'])
     else:

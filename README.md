@@ -45,7 +45,6 @@ pip install ipykernel
 ## Quick start
 Here, we provide an example to annotate a dataset (Lu2022) of HCC by LiverCT. The following tutorial can help you quickly understand how LiverCT works. If you'd like, you can also directly run **demo.ipynb** in this repository.
 
-> Please note that when testing with a new dataset, before running the LiverCT algorithm, you need to align the genes with the reference list using our tool **43878_aligner** to achieve optimal performance. See 43878_aligner/README.md. The data Lu2022 downloaded in this demo has already been aligned in advance.
 
 ```python
 import os
@@ -60,23 +59,33 @@ from liverct_annot import *
 
 
 ```python
-url = "https://zenodo.org/record/8239570/files/models.zip"
 output_folder = "../test_folder/"
-os.makedirs(output_folder) 
+extract_dir = "../test_folder/LiverCT_models/"
+```
+
+
+```python
+url = "https://zenodo.org/record/8239570/files/models.zip"
+os.makedirs(output_folder)
 gdown.download(url, output_folder + "LiverCT_models.zip", quiet=False)
 
-extract_dir = "../test_folder/LiverCT_models/"
 shutil.unpack_archive(output_folder + "LiverCT_models.zip", extract_dir=extract_dir)
 os.remove(output_folder + "LiverCT_models.zip")
 ```
 
-### Download query dataset from zenodo
+
+### download query dataset
+
+Download a query dataset Lu2022 (https://doi.org/10.1038/s41467-022-32283-3).
+
 
 ```python
-url = "https://zenodo.org/record/8239570/files/example_data_Lu2022_downsampled.h5ad"
-gdown.download(url, output_folder + "example_data_Lu2022_downsampled.h5ad", quiet=False)
-adata = sc.read_h5ad(output_folder + "example_data_Lu2022_downsampled.h5ad")
+url = "https://zenodo.org/record/13380493/files/Lu2022_subsampled.h5ad"
+gdown.download(url, output_folder + "Lu2022_subsampled.h5ad", quiet=False)
+adata = sc.read_h5ad(output_folder + "Lu2022_subsampled.h5ad")
 ```
+
+
 ### Annotate cell types and intermediate/deviated states
 
 ```python
@@ -100,8 +109,8 @@ sc.pl.umap(latent, color=['intermediate_score', 'deviated_score'],
            size=20000 / latent.n_obs, legend_fontsize=6, color_map='inferno')
 ```
 
-![png](demo_files/demo_12_0.png)
-![png](demo_files/demo_12_1.png)
+![png](demo_files/demo_13_0.png)
+![png](demo_files/demo_13_1.png)
 
 ### Annotate hepatocyte zonation groups
 
@@ -124,4 +133,4 @@ sc.settings.set_figure_params(dpi=200, figsize=(2,2), frameon=False, fontsize=8)
 sc.pl.umap(hep_latent, color=['zonation'], size=50000 / latent.n_obs, legend_fontsize=6)
 ```
     
-<img src="demo_files/demo_14_0.png" alt="png" width="500"/>
+<img src="demo_files/demo_17_0.png" alt="png" width="500"/>
