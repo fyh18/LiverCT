@@ -7,6 +7,7 @@ def cell_states_annot(
         model_dir,
         adata_test,
         finetune_epoch = 20,
+        gene_uniform = True
 ):
     '''
     cell_states_annot
@@ -31,15 +32,18 @@ def cell_states_annot(
     meta = adata_test.obs
 
     # --------------------- gene alignment -----------------------------
-    test = GeneSymbolUniform(input_adata = adata_test,
-                                    ref_table_path = "./GeneSymbolUniform_Pytoolkit/GeneSymbolRef_SelectAll_upd.csv",
-                                    gene_list_path = "./GeneSymbolUniform_Pytoolkit/total_gene_list_43878.txt",
-                                    output_dir="./test_pytoolkit/",
-                                    output_prefix='Lu2022',
-                                    print_report=False,
-                                    average_alias=False,
-                                    n_threads=30)
-    test = feature_alignment(test, var_names)
+    if gene_uniform:
+        test = GeneSymbolUniform(input_adata = adata_test,
+                                      ref_table_path = "./GeneSymbolUniform_Pytoolkit/GeneSymbolRef_SelectAll_upd.csv",
+                                      gene_list_path = "./GeneSymbolUniform_Pytoolkit/total_gene_list_43878.txt",
+                                      output_dir="./test_pytoolkit/",
+                                      output_prefix='Lu2022',
+                                      print_report=False,
+                                      average_alias=False,
+                                      n_threads=30)
+        test = feature_alignment(test, var_names)
+    else:
+        test = feature_alignment(adata_test, var_names)
     
     if 'batch' in meta.columns:
         test.obs['batch'] = list(meta['batch'])
