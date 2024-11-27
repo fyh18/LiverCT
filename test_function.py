@@ -143,6 +143,7 @@ def LabelPredict(test_set, is_cnt, select_feature,
             adata_part.obs["voting_proba_1"] = list(adata_part.obs['proba_lv1'])
             adata_part.obs["voting_lv2_2"] = ["Unclassified"] * adata_part.n_obs
             adata_part.obs["voting_proba_2"] = [0] * adata_part.n_obs
+
             if transition_predict:
                 adata_part.obs["pred_lv2_ovo"] = adata_part.obs['pred_lv1']
                 adata_part.obs["distance_ovo"] = [1e4] * adata_part.n_obs
@@ -181,10 +182,17 @@ def LabelPredict(test_set, is_cnt, select_feature,
 
     test_adata_labeled = anndata.concat(adata_list, merge="same")
     test_adata = test_adata_labeled[test_adata.obs_names, :]
+
+    # correct Pericyte as VSMC
+    test_adata.obs['voting_lv2_1'] = ['VSMC' if i == 'Pericyte' else i for i in test_adata.obs['voting_lv2_1']]
+    test_adata.obs['voting_lv2_2'] = ['VSMC' if i == 'Pericyte' else i for i in test_adata.obs['voting_lv2_2']]
+    test_adata.obs['voting_lv2_1'] = ['Kupffer' if i == 'Macro' else i for i in test_adata.obs['voting_lv2_1']]
+    test_adata.obs['voting_lv2_2'] = ['Kupffer' if i == 'Macro' else i for i in test_adata.obs['voting_lv2_2']]
+    test_adata.obs['pred_lv2'] = list(test_adata.obs['voting_lv2_1'])
     
     ##### add unknown label #####
-    label_lv1 = np.full(test_adata.n_obs, fill_value="Unknown")
-    label_lv2 = np.full(test_adata.n_obs, fill_value="Unknown")
+    label_lv1 = np.full(test_adata.n_obs, fill_value="Unknown", dtype="<U20")
+    label_lv2 = np.full(test_adata.n_obs, fill_value="Unknown", dtype="<U20")
     
     threshold = 0.6
     label_lv1[test_adata.obs['proba_lv1'] > threshold] = test_adata.obs['pred_lv1'][test_adata.obs['proba_lv1'] > threshold]
@@ -197,7 +205,7 @@ def LabelPredict(test_set, is_cnt, select_feature,
     test_adata.obs['suggest_label_lv2'] = list(label_lv2)
 
     lineage = np.array(test_adata.obs['suggest_label_lv1'])
-    lineage[(test_adata.obs['suggest_label_lv1']==' x    cell') | (test_adata.obs['suggest_label_lv1']=='B cell')
+    lineage[(test_adata.obs['suggest_label_lv1']=='TNK cell') | (test_adata.obs['suggest_label_lv1']=='B cell')
              | (test_adata.obs['suggest_label_lv1']=='Plasma B cell')] = 'Lymphoid'
     lineage[test_adata.obs['suggest_label_lv1']=='Myeloid cell'] = 'Myeloid'
     lineage[test_adata.obs['suggest_label_lv1']=='Mesenchymal cell'] = 'Stromal'
@@ -215,13 +223,6 @@ def LabelPredict(test_set, is_cnt, select_feature,
     lineage[test_adata.obs['pred_lv1']=='Endothelial cell'] = 'Endothelial'
     lineage[(test_adata.obs['pred_lv1']=='Hepatocyte') | (test_adata.obs['pred_lv1']=='Cholangiocyte')] = 'Epithelial'
     test_adata.obs['pred_lineage'] = list(lineage)
-
-    # correct Pericyte as VSMC
-    test_adata.obs['voting_lv2_1'] = ['VSMC' if i == 'Pericyte' else i for i in test_adata.obs['voting_lv2_1']]
-    test_adata.obs['voting_lv2_2'] = ['VSMC' if i == 'Pericyte' else i for i in test_adata.obs['voting_lv2_2']]
-    test_adata.obs['voting_lv2_1'] = ['Kupffer' if i == 'Macro' else i for i in test_adata.obs['voting_lv2_1']]
-    test_adata.obs['voting_lv2_2'] = ['Kupffer' if i == 'Macro' else i for i in test_adata.obs['voting_lv2_2']]
-    test_adata.obs['pred_lv2'] = list(test_adata.obs['voting_lv2_1'])
 
     # disease score / transition score
     oc_score = test_adata.obs['oc_score']
